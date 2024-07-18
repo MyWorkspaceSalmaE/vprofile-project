@@ -18,9 +18,18 @@ pipeline {
     }
     
     stages {
-        stage('Build'){
+        stage('Build') {
             steps {
-                withEnv(["CENTRAL_REPO=${CENTRAL_REPO}", "NEXUS_GRP_REPO=${NEXUS_GRP_REPO}", "NEXUSIP=${NEXUSIP}", "NEXUSPORT=${NEXUSPORT}"]) {
+                withEnv([
+                    "SNAP_REPO=${env.SNAP_REPO}",
+                    "NEXUS_USER=${env.NEXUS_USER}",
+                    "NEXUS_PASS=${env.NEXUS_PASS}",
+                    "RELEASE_REPO=${env.RELEASE_REPO}",
+                    "CENTRAL_REPO=${env.CENTRAL_REPO}",
+                    "NEXUSIP=${env.NEXUSIP}",
+                    "NEXUSPORT=${env.NEXUSPORT}",
+                    "NEXUS_GRP_REPO=${env.NEXUS_GRP_REPO}"
+                ]) {
                     sh 'mvn -s settings.xml -DskipTests install'
                 }
             }
